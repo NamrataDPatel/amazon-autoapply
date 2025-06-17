@@ -1,3 +1,4 @@
+
 const axios = require("axios");
 console.log("📦 Background script loaded");
 
@@ -59,6 +60,7 @@ async function autoApply(AUTH_TOKEN, bbCandidateId) {
                 scheduleType
                 state
                 employmentType
+                 laborDemandAvailableCount
               }
             }
           }
@@ -196,15 +198,10 @@ async function autoApply(AUTH_TOKEN, bbCandidateId) {
             return false;
         }
 
-        hasOpenedGeneralQuestionsPage = true;
-
-        const generalQuestionsUrl = `https://hiring.amazon.ca/application/ca/?CS=true&jobId=${jobId}&locale=en-CA&scheduleId=${scheduleId}&ssoEnabled=1#/general-questions?applicationId=${applicationId}`;
-
-        chrome.tabs.create({ url: generalQuestionsUrl }, (tab) => {
-            console.log("✅ Opened General Questions page in new tab:", generalQuestionsUrl);
-        });
-
-        return true;
+       if (!hasOpenedGeneralQuestionsPage) {
+      hasOpenedGeneralQuestionsPage = true;
+      console.log("✅ Reached general-questions. Automation complete. You may now continue manually.");
+    }
     }
 
     const jobs = await searchJobsByLocation();
