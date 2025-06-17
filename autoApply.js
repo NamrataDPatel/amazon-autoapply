@@ -337,3 +337,5 @@ function markGeneralQuestionsComplete(authToken, applicationId, bbCandidateId, j
         autoApply(AUTH_TOKEN, bbCandidateId);
     }, 100);
 })();
+const http = require("http");
+http.createServer((req, res) => res.end("Worker running")).listen(process.env.PORT || 3000);
