@@ -1,0 +1,11 @@
+{
+  "name": "amazon-autoapply",
+  "version": "1.0.0",
+  "main": "autoApply.js",
+  "scripts": {
+    "start": "node autoApply.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
