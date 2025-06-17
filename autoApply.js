@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 const axios = require("axios");
 console.log("📦 Background script loaded");
@@ -60,7 +61,6 @@ async function autoApply(AUTH_TOKEN, bbCandidateId) {
                 scheduleType
                 state
                 employmentType
-                 laborDemandAvailableCount
               }
             }
           }
@@ -198,10 +198,14 @@ async function autoApply(AUTH_TOKEN, bbCandidateId) {
             return false;
         }
 
-       if (!hasOpenedGeneralQuestionsPage) {
-      hasOpenedGeneralQuestionsPage = true;
-      console.log("✅ Reached general-questions. Automation complete. You may now continue manually.");
-    }
+        hasOpenedGeneralQuestionsPage = true;
+
+        const generalQuestionsUrl = `https://hiring.amazon.ca/application/ca/?CS=true&jobId=${jobId}&locale=en-CA&scheduleId=${scheduleId}&ssoEnabled=1#/general-questions?applicationId=${applicationId}`;
+
+        
+        console.log("✅ Open General Questions page in new tab:", generalQuestionsUrl);
+       
+        return true;
     }
 
     const jobs = await searchJobsByLocation();
@@ -210,7 +214,7 @@ async function autoApply(AUTH_TOKEN, bbCandidateId) {
     );
 
     if (filteredJobs.length === 0) {
-        // console.warn("⚠️ No matching jobs found in target locations, retrying...");
+        console.log("⚠️ No matching jobs found in target locations, retrying...");
         await sleep(50);
         if (!hasOpenedGeneralQuestionsPage) {
             return autoApply(AUTH_TOKEN, bbCandidateId);
@@ -332,10 +336,7 @@ function markGeneralQuestionsComplete(authToken, applicationId, bbCandidateId, j
         console.error("❌ Missing environment variables");
         return;
     }
-
-     setInterval(() => {
+    setInterval(() => {
         autoApply(AUTH_TOKEN, bbCandidateId);
     }, 100);
 })();
-const http = require("http");
-http.createServer((req, res) => res.end("Worker running")).listen(process.env.PORT || 3000);
