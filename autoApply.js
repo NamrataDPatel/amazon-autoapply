@@ -335,5 +335,5 @@ function markGeneralQuestionsComplete(authToken, applicationId, bbCandidateId, j
 
      setInterval(() => {
         autoApply(AUTH_TOKEN, bbCandidateId);
-    }, 30000);
+    }, 100);
 })();
